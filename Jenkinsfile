@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "php-rds-demo"
+        CONTAINER_NAME = "php-rds-app"
     }
 
     stages {
@@ -14,15 +15,23 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'
+                dir("${WORKSPACE}") {
+                    sh '''
+                    echo "Building Docker image..."
+                    docker build -t $IMAGE_NAME .
+                    '''
+                }
             }
         }
 
         stage('Stop Old Container') {
             steps {
                 sh '''
-                if [ "$(docker ps -q -f name=php-rds-app)" ]; then
-                    docker stop php-rds-app && docker rm php-rds-app
+                if [ "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
+                    echo "Stopping old container..."
+                    docker stop $CONTAINER_NAME && docker rm $CONTAINER_NAME
+                else
+                    echo "No old container found."
                 fi
                 '''
             }
@@ -30,7 +39,10 @@ pipeline {
 
         stage('Run New Container') {
             steps {
-                sh 'docker run -d -p 80:80 --name php-rds-app $IMAGE_NAME'
+                sh '''
+                echo "Running new container..."
+                docker run -d -p 80:80 --name $CONTAINER_NAME $IMAGE_NAME
+                '''
             }
         }
     }
