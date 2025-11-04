@@ -6,9 +6,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $query = "INSERT INTO users (name, email) VALUES ('$name', '$email')";
     if (mysqli_query($conn, $query)) {
-        echo "User added successfully!";
+        echo "<p style='color:green;'>✅ User added successfully!</p>";
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "<p style='color:red;'>❌ Error: " . mysqli_error($conn) . "</p>";
     }
 }
 
@@ -19,18 +19,20 @@ $result = mysqli_query($conn, "SELECT * FROM users");
 <html>
 <head><title>PHP RDS Demo</title></head>
 <body>
-<h2>Add User</h2>
+<h1 style="color:blue;">🚀 Bitcot PHP + AWS RDS Demo (Auto Deployed)</h1>
+
+<h2>Add New User</h2>
 <form method="POST">
   Name: <input type="text" name="name"><br>
   Email: <input type="text" name="email"><br>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Add User">
 </form>
 
 <h2>Users List</h2>
 <table border="1">
   <tr><th>Name</th><th>Email</th></tr>
   <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-    <tr><td><?= $row['name'] ?></td><td><?= $row['email'] ?></td></tr>
+    <tr><td><?= htmlspecialchars($row['name']) ?></td><td><?= htmlspecialchars($row['email']) ?></td></tr>
   <?php } ?>
 </table>
 </body>
