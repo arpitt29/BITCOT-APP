@@ -19,7 +19,7 @@ $result = mysqli_query($conn, "SELECT * FROM users");
 <html>
 <head><title>PHP RDS Demo</title></head>
 <body>
-<h1 style="color:blue;">🚀 Bitcot PHP + AWS RDS Demo (Auto Deployed)</h1>
+<h1 style="color:red;"> Bitcot PHP + AWS RDS Demo (Auto Deployed)</h1>
 
 <h2>Add New User</h2>
 <form method="POST">
