@@ -1,0 +1,5 @@
+{
+  "name": "bitcot/php-app",
+  "description": "PHP app connected to RDS deployed using Jenkins",
+  "require": {}
+}
